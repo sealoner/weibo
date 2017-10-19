@@ -35,4 +35,14 @@ class User extends Authenticatable
      * @var string
      */
     protected $table = 'users';
+
+    /**
+     * 使用gravatar自动生成用户头像
+     */
+    public function gravatar($size="100")
+    {
+        //获取当前数据库中的个人邮箱，将获取到的字符串的两边的引号去掉，并转成小写
+        $hash = md5(strtolower(trim($this->attributes['email'])));
+        return "http://www.gravatar.com/avatar/$hash?s=$size";
+    }
 }
