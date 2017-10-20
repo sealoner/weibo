@@ -7,6 +7,15 @@ use Illuminate\Support\Facades\Auth;
 
 class SessionController extends Controller
 {
+
+    public function __construct()
+    {
+        //使用Auth中间件提供的guest选项，只让未登录的用户访问登录页面
+        $this->middleware('guest',[
+            'only'  =>  ['create'],
+        ]);
+    }
+
     //创建登录页面
     public function create()
     {
@@ -31,7 +40,7 @@ class SessionController extends Controller
 //        dd($user_info->name);
         if(Auth::attempt($credentials, $request->has('remember'))) {
             session()->flash('success', '欢迎回来');
-            return redirect()->route('users.show', [Auth::user()]);
+            return redirect()->intended(route('users.show', [Auth::user()]));
         }else{
             session()->flash('danger', '对不起，您的邮箱或密码有误，请重新输入~');
             return redirect()->back();
