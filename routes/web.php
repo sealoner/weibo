@@ -23,3 +23,5 @@ Route::resource('/users', 'UsersController');
 Route::get('/login', 'SessionController@create')->name('login');   //登录页面
 Route::post('/login', 'SessionController@store')->name('login');    //登录验证
 Route::delete('/logout', 'SessionController@destroy')->name('logout');    //销毁会话（退出登录）
+//验证邮箱发送的URL
+Route::get('/signup/confirm/{token}', 'UsersController@confirmEmail')->name('confirm_email');

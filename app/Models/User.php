@@ -30,6 +30,17 @@ class User extends Authenticatable
     ];
 
     /**
+     * 使用creating，对模型被创建之前的事件进行监听
+     */
+    public static function boot()
+    {
+        parent::boot();
+        static::creating(function ($user){
+            $user->activation_token = str_random(30);
+        });
+    }
+
+    /**
      * 在Eloquent模型中借助对table属性的定义，指明当前要操作的数据表为“users”表
      *
      * @var string
